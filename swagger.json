@@ -1,0 +1,1425 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "### ОЦРВ Портал\n",
+    "version": "0.0.1",
+    "title": "",
+    "termsOfService": "",
+    "contact": {
+      "email": ""
+    },
+    "x-logo": {
+      "url": "",
+      "backgroundColor": "#FFFFFF"
+    }
+  },
+  "basePath": "/api/v1",
+  "host": "demo.com",
+  "tags": [
+
+    {
+      "name": "auth",
+      "description": "Авторизация"
+    },
+
+    {
+      "name": "departments",
+      "description": "Иерархия управленческой структуры."
+    },
+
+    {
+      "name": "employee",
+      "description": "Сотрудники"
+    }
+  ],
+  "x-tagGroups": [
+
+    {
+      "name": "Endpoints",
+      "tags": [
+        "auth",
+        "departments",
+        "employee"
+      ]
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "responses": {
+    "Forbidden": {
+      "description": "Ошибка доступа",
+      "schema": {
+        "$ref": "#/definitions/AppError"
+      }
+    },
+    "Unauthorized": {
+      "description": "Ошибка авторизации",
+      "schema": {
+        "$ref": "#/definitions/AppError"
+      }
+    },
+    "BadRequest": {
+      "description": "Неверные или отсутствующие параметры в URL или теле запроса",
+      "schema": {
+        "$ref": "#/definitions/AppError"
+      }
+    },
+    "NotFound": {
+      "description": "Resource not found",
+      "schema": {
+        "$ref": "#/definitions/AppError"
+      }
+    },
+    "TooLarge": {
+      "description": "Content too large",
+      "schema": {
+        "$ref": "#/definitions/AppError"
+      }
+    },
+    "NotImplemented": {
+      "description": "Feature is disabled",
+      "schema": {
+        "$ref": "#/definitions/AppError"
+      }
+    },
+    "InternalServerError": {
+      "description": "Something went wrong with the server",
+      "schema": {
+        "$ref": "#/definitions/AppError"
+      }
+    }
+  },
+  "paths": {
+    "/user.login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+
+        "summary": "Авторизация пользователя",
+        "description": "Пароль в явном виде необходим для авторизации через AD",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "post",
+            "description": "json",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "USERNAME",
+                "PASSWORD"
+              ],
+              "properties": {
+                "USERNAME": {
+                  "type": "string",
+                  "title": "Логин пользователя",
+                  
+                  "examples": [
+                    "o.kravtsov"
+                  ]
+                },
+                "PASSWORD": {
+                  "type": "string",
+                  "title": "Пароль пользователя",
+                  
+                  "examples": [
+                    "MrymSYc83dd668118119eb95eeb7479307d7e8f1"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/user.logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+
+        "summary": "Выход пользователя",
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "query",
+            "description": "Токен авторизации",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "schema": {
+              "$ref": "#/definitions/StatusOK"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/user.attach": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": null,
+        "description": "Привязка токена устройства",
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "query",
+            "description": "Токен авторизации",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "post",
+            "description": "json",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "DEVICE_ID"
+              ],
+              "properties": {
+                "DEVICE_ID": {
+                  "type": "string",
+                  "title": "Токен устройства",
+                  "description" : "Токен устройства для APN и FB",
+                  "examples": [
+                    "5499fdaadsd09ddks00s99f88dfer9e9nb0b00bbnb0n0h"
+                  ]
+                }
+
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "schema": {
+              "$ref": "#/definitions/StatusOK"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/employee.current": {
+      "get": {
+        "tags": [
+          "employee"
+        ],
+        "summary": null,
+        "description": "Информация о текущем сотруднике",
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "query",
+            "description": "Токен авторизации",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "schema": {
+              "$ref": "#/definitions/UserGetResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/employee.get": {
+      "get": {
+        "tags": [
+          "employee"
+        ],
+
+        "summary": "Информация о сотрудниках",
+        "description": "При заданном занчании параметра LAST_SYNC_DATE возвращаются элементы измненные после заданной даты. Параметры кроме auth являються не обязательными",
+        "parameters": [
+          {
+            "name": "LAST_SYNC_DATE",
+            "in": "query",
+            "description": "Дата (unix-время) последней успешной синхронизации",
+            "type": "integer",
+            "examples": [
+              1525735820
+            ]
+          },
+          {
+            "name": "ID",
+            "in": "query",
+            "description": "Внутренний идентификатор пользователя",
+            "type": "integer",
+            "examples": [
+              2332
+            ]
+          },
+
+          {
+            "name": "UF_DEPARTMENT",
+            "in": "query",
+            "description": "Внутренний подразделения по организационной структуре",
+            "type": "integer",
+            "examples": [
+              12
+            ]
+          },
+          {
+            "name": "UF_ADMIN_DEPARTMENT",
+            "in": "query",
+            "description": "Внутренний подразделения по управленческой структуре",
+            "type": "integer",
+            "examples": [
+              12
+            ]
+          },
+          {
+            "name": "auth",
+            "in": "query",
+            "description": "Токен авторизации",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "schema": {
+              "$ref": "#/definitions/UserGetResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/absence.info": {
+      "get": {
+        "tags": [
+          "employee"
+        ],
+
+        "summary": "Информация о типах отсутсвия",
+        "parameters": [
+          {
+            "name": "LAST_SYNC_DATE",
+            "in": "query",
+            "description": "Дата (unix-время) последней успешной синхронизации",
+
+            "type": "string"
+          },
+          {
+            "name": "auth",
+            "in": "query",
+            "description": "Токен авторизации",
+
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "schema": {
+              "$ref": "#/definitions/AbsenceTypeInfoResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/departments.tree": {
+      "post": {
+        "tags": [
+          "departments"
+        ],
+
+        "summary": "Иерархия подразделений",
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "query",
+            "description": "Токен авторизации",
+            "type": "string",
+            "required": true
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "schema": {
+              "$ref": "#/definitions/DepartmentTreeResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/departments.get": {
+      "post": {
+        "tags": [
+          "departments"
+        ],
+        "summary": "Список подразделений",
+        "description": "При заданном занчании параметра LAST_SYNC_DATE возвращаются элементы измненные после заданной даты. Параметры кроме auth являються не обязательными",
+        "parameters": [
+          {
+            "name": "LAST_SYNC_DATE",
+            "in": "query",
+            "description": "Дата (unix-время) последней успешной синхронизации",
+            "type": "string"
+          },
+          {
+            "name": "ID",
+            "in": "query",
+            "description": "идентификатор подразделения ",
+            "type": "integer",
+            "examples": [
+              2332
+            ]
+          },
+          {
+            "name": "auth",
+            "in": "query",
+            "description": "Токен авторизации",
+     
+            "type": "string",
+            "required": true
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Успешно",
+            "schema": {
+              "$ref": "#/definitions/DepartmentTreeResponse"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AppError": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/AppErrorResult"
+        },
+        "status": {
+          "type": "string",
+          "default": "error"
+        }
+      }
+    },
+    "AppErrorResult": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "examples": [
+            "769"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "examples": [
+            "Ведутся технические работы"
+          ]
+        },
+        "debug": {
+          "type": "string",
+          "examples": [
+            "#1: Bitrix\\Disk\\Storage->getProxyType()            /home/bitrix/www/bitrix/modules/disk/lib/search/indexmanager.php:227            #2: Bitrix\\Disk\\Search\\IndexManager->allowIndex(object)"
+          ]
+        }
+      }
+    },
+    "Token": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+
+    "User": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "$id": "#/properties/ID",
+          "type": "string",
+          "title": "Идентификатор пользователя",
+          
+          "examples": [
+            "769"
+          ]
+        },
+        "ACTIVE": {
+          "$id": "#/properties/IBLOCK_SECTION_ID",
+          "type": "string",
+          "title": "Признак активности",
+          "examples": [
+            "Y"
+          ]
+        },
+        "TIMESTAMP_X": {
+          "$id": "#/properties/IBLOCK_SECTION_ID",
+          "type": "integer",
+          "title": "Дата изменения элемента",
+          "examples": [
+            "1525735820"
+          ]
+        },
+        "EMAIL": {
+          "$id": "#/properties/EMAIL",
+          "type": "string",
+          "title": "Эл. адрес",
+          "examples": [
+            "Лариса"
+          ]
+        },
+        "NAME": {
+          "$id": "#/properties/NAME",
+          "type": "string",
+          "title": "Имя",
+          "examples": [
+            "Лариса"
+          ]
+        },
+        "LAST_NAME": {
+          "$id": "#/properties/LAST_NAME",
+          "type": "string",
+          "title": "Отчетсво",
+          "examples": [
+            "Глебова"
+          ]
+        },
+        "SECOND_NAME": {
+          "$id": "#/properties/SECOND_NAME",
+          "type": "string",
+          "title": "Фамилия",
+          "examples": [
+            "Ивановна"
+          ]
+        },
+        "PERSONAL_PHOTO": {
+          "$id": "#/properties/PERSONAL_PHOTO",
+          "type": "string",
+          "title": "Фотография пользователя",
+          "examples": [
+            "/upload/main/8c2/Глебова Лариса Ивановна.JPG"
+          ]
+
+        },
+        "WORK_POSITION": {
+          "$id": "#/properties/WORK_POSITION",
+          "type": "string",
+          "title": "Должность",
+          "examples": [
+            "Заместитель главного бухгалтера"
+          ]
+        },
+
+        "PERSONAL_MOBILE": {
+          "$id": "#/properties/UF_DEPARTMENT",
+          "type": "string",
+          "title": "Мобильный телефон пользователя",
+          "examples": [
+            "121"
+          ]
+        },
+
+        "UF_PHONE_INNER": {
+          "$id": "#/properties/UF_DEPARTMENT",
+          "type": "string",
+          "title": "Внутреннии телефон пользователя",
+          "examples": [
+            "121"
+          ]
+        },
+        "UF_DEPARTMENT": {
+          "$id": "#/properties/UF_DEPARTMENT",
+          "type": "string",
+          "title": "Внутреннии идентификтаор подразделения по организационной структуру",
+          "examples": [
+            "121"
+          ]
+        },
+        "UF_ADMIN_DEPARTMENT": {
+          "$id": "#/properties/UF_ADMIN_DEPARTMENT",
+          "type": "string",
+          "title": "Внутреннии идентификтаор подразделения по управленческой структуру",
+          "examples": [
+           "1232"
+          ]
+        },
+        "UF_ROOT_DEPARTMENT": {
+          "$id": "#/properties/UF_DEPARTMENT",
+          "type": "string",
+          "title": "Филиал пользователя",
+          "examples": [
+            "121"
+          ]
+        },
+        "MANAGERS": {
+          "title": "Список руководителей пользователя",
+          "type": "array",
+          "additionalItems": true,
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "ABSENCE": {
+          "title": "Список отсутсвии пользователя",
+          "type": "array",
+          "additionalItems": true,
+          "items": {
+            "$ref": "#/definitions/AbsenceInfo"
+          }
+        },
+        "TOKEN": {
+          "$id": "#/properties/TOKEN",
+          "type": "string",
+          "title": "Токен авторизации пользователя"
+
+        }
+      }
+    },
+
+    "UserWithToken": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "$id": "#/properties/ID",
+          "type": "string",
+          "title": "Идентификатор пользователя",
+
+          "examples": [
+            "769"
+          ]
+        },
+        "ACTIVE": {
+          "$id": "#/properties/IBLOCK_SECTION_ID",
+          "type": "string",
+          "title": "Признак активности",
+          "examples": [
+            "Y"
+          ]
+        },
+        "TIMESTAMP_X": {
+          "$id": "#/properties/IBLOCK_SECTION_ID",
+          "type": "integer",
+          "title": "Дата изменения элемента",
+          "examples": [
+            "1525735820"
+          ]
+        },
+        "EMAIL": {
+          "$id": "#/properties/EMAIL",
+          "type": "string",
+          "title": "Эл. адрес",
+          "examples": [
+            "Лариса"
+          ]
+        },
+        "NAME": {
+          "$id": "#/properties/NAME",
+          "type": "string",
+          "title": "Имя",
+          "examples": [
+            "Лариса"
+          ]
+        },
+        "LAST_NAME": {
+          "$id": "#/properties/LAST_NAME",
+          "type": "string",
+          "title": "Отчетсво",
+          "examples": [
+            "Глебова"
+          ]
+        },
+        "SECOND_NAME": {
+          "$id": "#/properties/SECOND_NAME",
+          "type": "string",
+          "title": "Фамилия",
+          "examples": [
+            "Ивановна"
+          ]
+        },
+        "PERSONAL_PHOTO": {
+          "$id": "#/properties/PERSONAL_PHOTO",
+          "type": "string",
+          "title": "Фотография пользователя",
+          "examples": [
+            "/upload/main/8c2/Глебова Лариса Ивановна.JPG"
+          ]
+
+        },
+        "WORK_POSITION": {
+          "$id": "#/properties/WORK_POSITION",
+          "type": "string",
+          "title": "Должность",
+          "examples": [
+            "Заместитель главного бухгалтера"
+          ]
+        },
+
+        "PERSONAL_MOBILE": {
+          "$id": "#/properties/UF_DEPARTMENT",
+          "type": "string",
+          "title": "Мобильный телефон пользователя",
+          "examples": [
+            "121"
+          ]
+        },
+
+        "UF_PHONE_INNER": {
+          "$id": "#/properties/UF_DEPARTMENT",
+          "type": "string",
+          "title": "Внутреннии телефон пользователя",
+          "examples": [
+            "121"
+          ]
+        },
+        "UF_DEPARTMENT": {
+          "$id": "#/properties/UF_DEPARTMENT",
+          "type": "string",
+          "title": "Внутреннии идентификтаор подразделения по организационной структуру",
+          "examples": [
+            "121"
+          ]
+        },
+        "UF_ADMIN_DEPARTMENT": {
+          "$id": "#/properties/UF_ADMIN_DEPARTMENT",
+          "type": "string",
+          "title": "Внутреннии идентификтаор подразделения по управленческой структуру",
+          "examples": [
+            "1232"
+          ]
+        },
+        "UF_ROOT_DEPARTMENT": {
+          "$id": "#/properties/UF_DEPARTMENT",
+          "type": "string",
+          "title": "Филиал пользователя",
+          "examples": [
+            "121"
+          ]
+        },
+        "MANAGERS": {
+          "title": "Список руководителей пользователя",
+          "type": "array",
+          "additionalItems": true,
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "ABSENCE": {
+          "title": "Список отсутсвии пользователя",
+          "type": "array",
+          "additionalItems": true,
+          "items": {
+            "$ref": "#/definitions/AbsenceInfo"
+          }
+        }
+      }
+    },
+
+    "AbsenceInfo": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "$id": "#/properties/ID",
+          "type": "string",
+          "title": "Идентификатор записи отсутствия",
+          "examples": [
+            "769"
+          ]
+        },
+        "USER_ID": {
+          "$id": "#/properties/USER_ID",
+          "type": "string",
+          "title": "Идентификатор пользователя",
+          "examples": [
+            "1"
+          ]
+        },
+        "TYPE_ID": {
+          "$id": "#/properties/TYPE_ID",
+          "type": "string",
+          "title": "Идентификатор типа отсутствия",
+          "examples": [
+            "3"
+          ]
+        },
+        "DESCRIPTION": {
+          "$id": "#/properties/TOKEN",
+          "type": "string",
+          "title": "Дополнительное описание отсутствия",
+          "examples": [
+            "Обучение в skillbox"
+          ]
+        },
+        "START_DATE_TS": {
+          "$id": "#/properties/NAME",
+          "type": "integer",
+          "title": "Дата начала, unix-time",
+          "examples": [
+            1525735820
+          ]
+        },
+        "END_DATE_TS": {
+          "$id": "#/properties/LAST_NAME",
+          "type": "integer",
+          "title": "Дата окончания, unix-time",
+          "examples": [
+            1525735820
+          ]
+        }
+
+      }
+    },
+
+    "AbsenceTypeInfo": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "$id": "#/properties/ID",
+          "type": "string",
+          "title": "Идентификатор типа отсутствия",
+          
+          "examples": [
+            "769"
+          ]
+        },
+        "NAME": {
+          "$id": "#/properties/USER_ID",
+          "type": "string",
+          "title": "Название типа отсутсвия",
+          
+          "examples": [
+            "Плановый отпуск"
+          ]
+        }
+
+
+      }
+    },
+
+
+
+    "DepartmentTree": {
+      "$schema": "http://json-schema.org/draft-07/schema",
+      "$id": "http://example.com/example.json",
+      "type": "object",
+      "title": "The Root Schema",
+      "description": "The root schema comprises the entire JSON document.",
+      "default": {},
+      "additionalProperties": true,
+      "required": [
+        "ID",
+        "IBLOCK_SECTION_ID",
+        "UF_HEAD",
+        "NAME",
+        "PICTURE",
+        "DETAIL_URL",
+        "RIGHT_MARGIN",
+        "LEFT_MARGIN",
+        "DEPTH_LEVEL",
+        "__children",
+        "EMPLOYEES"
+      ],
+      "properties": {
+        "ID": {
+          "$id": "#/properties/ID",
+          "type": "string",
+          "title": "Идентификатор подразделения",
+
+          
+          "examples": [
+            "6051"
+          ]
+        },
+        "ACTIVE": {
+          "$id": "#/properties/IBLOCK_SECTION_ID",
+          "type": "string",
+          "title": "Признак активности",
+          "examples": [
+            "Y"
+          ]
+        },
+        "TIMESTAMP_X": {
+          "$id": "#/properties/IBLOCK_SECTION_ID",
+          "type": "integer",
+          "title": "Дата изменения элемента",
+          "examples": [
+            "1525735820"
+          ]
+        },
+        "IBLOCK_SECTION_ID": {
+          "$id": "#/properties/IBLOCK_SECTION_ID",
+          "type": "string",
+          "title": "Идентификатор родительского подразделения",
+
+          
+          "examples": [
+            "6050"
+          ]
+        },
+        "UF_HEAD": {
+          "$id": "#/properties/UF_HEAD",
+          "type": "string",
+          "title": "Идентификатор руководителя подразделения",
+          
+          "examples": [
+            "1077"
+          ]
+        },
+        "NAME": {
+          "$id": "#/properties/NAME",
+          "type": "string",
+          "title": "The Name Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "Блок Главного бухгалтера"
+          ]
+        },
+
+        "DEPTH_LEVEL": {
+          "$id": "#/properties/DEPTH_LEVEL",
+          "type": "string",
+          "title": "Уровень вложения подразделения",
+
+          
+          "examples": [
+            "2"
+          ]
+        },
+        "__children": {
+          "$id": "#/properties/__children",
+          "type": "integer",
+          "title": "Количество дочерних подразделений" ,
+
+          "default": 0,
+          "examples": [
+            2.0
+          ]
+        },
+        "СHILDREN": {
+          "$id": "#/properties/EMPLOYEES",
+          "type": "array",
+          "title": "Список дочерних подразделений",
+          "default": [],
+          "additionalItems": true,
+          "items": {
+            "$ref": "#/definitions/Department"
+          }
+        },
+        "EMPLOYEES": {
+          "$id": "#/properties/EMPLOYEES",
+          "type": "array",
+          "title": "Список сотрудников подразделения",
+          "default": [],
+          "additionalItems": true,
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      }
+    },
+
+    "Department": {
+
+      "type": "object",
+      "title": "Подразделение",
+
+      "default": {},
+      "additionalProperties": true,
+
+      "properties": {
+        "ID": {
+          "$id": "#/properties/ID",
+          "type": "string",
+          "title": "Идентификатор подразделения",
+
+          
+          "examples": [
+            "6051"
+          ]
+        },
+        "ACTIVE": {
+          "$id": "#/properties/IBLOCK_SECTION_ID",
+          "type": "string",
+          "title": "Признак активности",
+          "examples": [
+            "Y"
+          ]
+        },
+        "TIMESTAMP_X": {
+          "$id": "#/properties/IBLOCK_SECTION_ID",
+          "type": "integer",
+          "title": "Дата изменения элемента",
+          "examples": [
+            1525735820
+          ]
+        },
+        "IBLOCK_SECTION_ID": {
+          "$id": "#/properties/IBLOCK_SECTION_ID",
+          "type": "string",
+          "title": "Идентификатор родительского подразделения",
+
+          
+          "examples": [
+            "6050"
+          ]
+        },
+        "UF_HEAD": {
+          "$id": "#/properties/UF_HEAD",
+          "type": "string",
+          "title": "Идентификатор руководителя подразделения",
+          
+          "examples": [
+            "1077"
+          ]
+        },
+        "NAME": {
+          "$id": "#/properties/NAME",
+          "type": "string",
+          "title": "The Name Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "Блок Главного бухгалтера"
+          ]
+        },
+
+        "DEPTH_LEVEL": {
+          "$id": "#/properties/DEPTH_LEVEL",
+          "type": "string",
+          "title": "Уровень вложения подразделения",
+
+          
+          "examples": [
+            "2"
+          ]
+        },
+
+        "EMPLOYEES": {
+          "$id": "#/properties/EMPLOYEES",
+          "type": "array",
+          "title": "Список сотрудников подразделения",
+          "default": [],
+          "additionalItems": true,
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      }
+    },
+
+    "FileInfo": {
+      "type": "object",
+      "title": "The File Schema",
+      "default": {},
+      "examples": [
+        {
+          "~src": false,
+          "MODULE_ID": "main",
+          "DESCRIPTION": "",
+          "CONTENT_TYPE": "image/jpeg",
+          "TIMESTAMP_X": "07.12.2018 12:35:23",
+          "HEIGHT": "2524",
+          "FILE_SIZE": "688900",
+          "ID": "9490",
+          "SUBDIR": "main/8c2",
+          "FILE_NAME": "Глебова Лариса Ивановна.JPG",
+          "ORIGINAL_NAME": "Глебова Лариса Ивановна.JPG",
+          "HANDLER_ID": null,
+          "EXTERNAL_ID": "4d1c82c9971dce03e22f38c8051e93cb",
+          "SRC": "/upload/main/8c2/Глебова Лариса Ивановна.JPG",
+          "WIDTH": "2691"
+        }
+      ],
+      "additionalProperties": true,
+      "required": [
+        "ID",
+        "TIMESTAMP_X",
+        "MODULE_ID",
+        "HEIGHT",
+        "WIDTH",
+        "FILE_SIZE",
+        "CONTENT_TYPE",
+        "SUBDIR",
+        "FILE_NAME",
+        "ORIGINAL_NAME",
+        "DESCRIPTION",
+        "HANDLER_ID",
+        "EXTERNAL_ID",
+        "~src",
+        "SRC"
+      ],
+      "properties": {
+        "ID": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/ID",
+          "type": "string",
+          "title": "The Id Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "9490"
+          ]
+        },
+        "TIMESTAMP_X": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/TIMESTAMP_X",
+          "type": "string",
+          "title": "The Timestamp_x Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "07.12.2018 12:35:23"
+          ]
+        },
+        "MODULE_ID": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/MODULE_ID",
+          "type": "string",
+          "title": "The Module_id Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "main"
+          ]
+        },
+        "HEIGHT": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/HEIGHT",
+          "type": "string",
+          "title": "The Height Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "2524"
+          ]
+        },
+        "WIDTH": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/WIDTH",
+          "type": "string",
+          "title": "The Width Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "2691"
+          ]
+        },
+        "FILE_SIZE": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/FILE_SIZE",
+          "type": "string",
+          "title": "The File_size Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "688900"
+          ]
+        },
+        "CONTENT_TYPE": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/CONTENT_TYPE",
+          "type": "string",
+          "title": "The Content_type Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "image/jpeg"
+          ]
+        },
+        "SUBDIR": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/SUBDIR",
+          "type": "string",
+          "title": "The Subdir Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "main/8c2"
+          ]
+        },
+        "FILE_NAME": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/FILE_NAME",
+          "type": "string",
+          "title": "The File_name Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "Глебова Лариса Ивановна.JPG"
+          ]
+        },
+        "ORIGINAL_NAME": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/ORIGINAL_NAME",
+          "type": "string",
+          "title": "The Original_name Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "Глебова Лариса Ивановна.JPG"
+          ]
+        },
+        "DESCRIPTION": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/DESCRIPTION",
+          "type": "string",
+          "title": "The Description Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            ""
+          ]
+        },
+        "HANDLER_ID": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/HANDLER_ID",
+          "type": "null",
+          "title": "The Handler_id Schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": null,
+          "examples": [
+            null
+          ]
+        },
+        "EXTERNAL_ID": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/EXTERNAL_ID",
+          "type": "string",
+          "title": "The External_id Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "4d1c82c9971dce03e22f38c8051e93cb"
+          ]
+        },
+        "~src": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/~src",
+          "type": "boolean",
+          "title": "The ~src Schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": false,
+          "examples": [
+            false
+          ]
+        },
+        "SRC": {
+          "$id": "#/properties/PERSONAL_PHOTO/properties/FILE/properties/SRC",
+          "type": "string",
+          "title": "The Src Schema",
+          "description": "An explanation about the purpose of this instance.",
+          
+          "examples": [
+            "/upload/main/8c2/Глебова Лариса Ивановна.JPG"
+          ]
+        }
+      }
+    },
+
+    "UserGetResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/User"
+        },
+        "status": {
+          "type": "string",
+          "default": "ok"
+        }
+      }
+    },
+
+    "DepartmentResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "title": "Список подразделении",
+          "default": [],
+          "additionalItems": true,
+          "items": {
+            "$ref": "#/definitions/Department"
+          }
+        },
+        "status": {
+          "type": "string",
+          "default": "ok"
+        }
+      }
+    },
+    "DepartmentTreeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "title": "Иерархия подразделении",
+          "default": [],
+          "additionalItems": true,
+          "items": {
+            "$ref": "#/definitions/DepartmentTree"
+          }
+        },
+        "status": {
+          "type": "string",
+          "default": "ok"
+        }
+      }
+    },
+
+    "AbsenceTypeInfoResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "title": "Список типов отсутсвия",
+          "type": "array",
+          "default": [],
+          "additionalItems": true,
+          "items": {
+            "$ref": "#/definitions/AbsenceTypeInfo"
+          }
+        },
+        "status": {
+          "type": "string",
+          "default": "ok"
+        }
+      }
+    },
+
+    "LoginResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/UserWithToken"
+        },
+        "status": {
+          "type": "string",
+          "default": "ok"
+        }
+      }
+    },
+
+    "StatusOK": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "default": "ok",
+          "description": "Будет содержать «ok», если запрос был успешным"
+        }
+      }
+    }
+  },
+  "externalDocs": null
+}
