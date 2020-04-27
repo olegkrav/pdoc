@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "### ОЦРВ Портал\n",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "title": "",
     "termsOfService": "",
     "contact": {
@@ -959,7 +959,7 @@
           }
         },
         "ABSENCE": {
-          "title": "Список текущего отсутсвии пользователя и 2х следующих",
+          "title": "Список текущего отсутствия пользователя и 2х следующих",
           "type": "array",
           "additionalItems": true,
           "items": {
