@@ -841,6 +841,7 @@
         "ACTIVE": {
           "type":  "string",
           "title": "Признак активности",
+          "enum": ["Y", "N"],
           "examples": [
             "Y"
           ]
@@ -974,6 +975,7 @@
 
           "type": "string",
           "title": "Признак активности",
+          "enum": ["Y", "N"],
           "examples": [
             "Y"
           ]
@@ -1206,6 +1208,7 @@
           "$id": "#/properties/IBLOCK_SECTION_ID",
           "type": "string",
           "title": "Признак активности",
+          "enum": ["Y", "N"],
           "examples": [
             "Y"
           ]
@@ -1291,6 +1294,7 @@
           "$id": "#/properties/IBLOCK_SECTION_ID",
           "type": "string",
           "title": "Признак активности",
+          "enum": ["Y", "N"],
           "examples": [
             "Y"
           ]
@@ -1366,6 +1370,7 @@
           "$id": "#/properties/IBLOCK_SECTION_ID",
           "type": "string",
           "title": "Признак активности",
+          "enum": ["Y", "N"],
           "examples": [
             "Y"
           ]
