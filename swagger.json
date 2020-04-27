@@ -22,7 +22,7 @@
     },
     {
       "name": "departments",
-      "description": "Иерархия управленческой структуры."
+      "description": "Структура предприятия."
     },
     {
       "name": "employee",
@@ -398,11 +398,41 @@
         ],
         "summary": "Информация о типах отсутсвия",
         "parameters": [
+
           {
-            "name": "LAST_SYNC_DATE",
-            "in": "query",
-            "description": "Дата (unix-время) последней успешной синхронизации",
-            "type": "string"
+            "in": "body",
+            "name": "post",
+            "description": "json",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "LAST_SYNC_DATE": {
+                  "name": "LAST_SYNC_DATE",
+                  "in": "query",
+                  "description": "Дата (unix-время) последней успешной синхронизации",
+                  "type": "integer",
+                  "examples": [
+                    1525735820
+                  ]
+                },
+                "LIMIT": {
+                  "name": "PAGE",
+                  "description": "Кол-во элементов при постраничном просмотре (если не задан отдает все элементы)",
+                  "type": "integer",
+                  "default": 500,
+                  "required": false
+                },
+                "PAGE" :  {
+                  "name": "PAGE",
+                  "in": "query",
+                  "description": "Номер страницы (начинается с 0)",
+                  "type": "integer",
+                  "default": 0,
+                  "required": false
+                }
+              }
+            }
           },
           {
             "name": "auth",
@@ -442,6 +472,41 @@
         "summary": "Список филиалов",
         "description": "При заданном занчании параметра LAST_SYNC_DATE возвращаются элементы измненные после заданной даты. Параметры кроме auth являються не обязательными",
         "parameters": [
+          {
+            "in": "body",
+            "name": "post",
+            "description": "json",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "LAST_SYNC_DATE": {
+                  "name": "LAST_SYNC_DATE",
+                  "in": "query",
+                  "description": "Дата (unix-время) последней успешной синхронизации",
+                  "type": "integer",
+                  "examples": [
+                    1525735820
+                  ]
+                },
+                "LIMIT": {
+                  "name": "PAGE",
+                  "description": "Кол-во элементов при постраничном просмотре (если не задан отдает все элементы)",
+                  "type": "integer",
+                  "default": 500,
+                  "required": false
+                },
+                "PAGE" :  {
+                  "name": "PAGE",
+                  "in": "query",
+                  "description": "Номер страницы (начинается с 0)",
+                  "type": "integer",
+                  "default": 0,
+                  "required": false
+                }
+              }
+            }
+          },
           {
             "name": "auth",
             "in": "query",
@@ -543,6 +608,7 @@
                     2332
                   ]
                 },
+
                 "LIMIT": {
                   "name": "LIMIT",
                   "description": "Кол-во элементов при постраничном просмотре (если не задан отдает все элементы)",
@@ -635,7 +701,7 @@
           "departments"
         ],
         "summary": "Список подразделений по организационной структуре",
-        "description": "При заданном занчании параметра LAST_SYNC_DATE возвращаются элементы измненные после заданной даты. Параметры кроме auth являються не обязательными",
+        "description": "При заданном занчании параметра LAST_SYNC_DATE возвращаются элементы измненные после заданной даты. Параметры кроме auth являються не обязательными.",
         "parameters": [
           {
             "in": "body",
@@ -766,22 +832,21 @@
       "properties": {
         "ID": {
           "$id": "#/properties/ID",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор пользователя",
           "examples": [
-            "769"
+            769
           ]
         },
         "ACTIVE": {
-          "$id": "#/properties/IBLOCK_SECTION_ID",
-          "type": "string",
+          "type":  "string",
           "title": "Признак активности",
           "examples": [
             "Y"
           ]
         },
         "TIMESTAMP_X": {
-          "$id": "#/properties/IBLOCK_SECTION_ID",
+
           "type": "integer",
           "title": "Дата изменения элемента",
           "examples": [
@@ -789,7 +854,7 @@
           ]
         },
         "EMAIL": {
-          "$id": "#/properties/EMAIL",
+
           "type": "string",
           "title": "Эл. адрес",
           "examples": [
@@ -797,7 +862,7 @@
           ]
         },
         "NAME": {
-          "$id": "#/properties/NAME",
+
           "type": "string",
           "title": "Имя",
           "examples": [
@@ -805,7 +870,7 @@
           ]
         },
         "LAST_NAME": {
-          "$id": "#/properties/LAST_NAME",
+
           "type": "string",
           "title": "Отчетсво",
           "examples": [
@@ -813,7 +878,7 @@
           ]
         },
         "SECOND_NAME": {
-          "$id": "#/properties/SECOND_NAME",
+
           "type": "string",
           "title": "Фамилия",
           "examples": [
@@ -829,7 +894,7 @@
           ]
         },
         "WORK_POSITION": {
-          "$id": "#/properties/WORK_POSITION",
+
           "type": "string",
           "title": "Должность",
           "examples": [
@@ -837,7 +902,7 @@
           ]
         },
         "PERSONAL_MOBILE": {
-          "$id": "#/properties/UF_DEPARTMENT",
+
           "type": "string",
           "title": "Мобильный телефон пользователя",
           "examples": [
@@ -845,33 +910,33 @@
           ]
         },
         "UF_PHONE_INNER": {
-          "$id": "#/properties/UF_DEPARTMENT",
+
           "type": "string",
-          "title": "Внутреннии телефон пользователя",
+          "title": "Внутренний телефон пользователя",
           "examples": [
             "121"
           ]
         },
         "UF_DEPARTMENT": {
-          "$id": "#/properties/UF_DEPARTMENT",
-          "type": "string",
-          "title": "Внутреннии идентификтаор подразделения по организационной структуру",
+
+          "type": "integer",
+          "title": "Внутренний идентификатор подразделения по организационной структуру",
           "examples": [
             "121"
           ]
         },
         "UF_ADMIN_DEPARTMENT": {
-          "$id": "#/properties/UF_ADMIN_DEPARTMENT",
-          "type": "string",
-          "title": "Внутреннии идентификтаор подразделения по управленческой структуру",
+
+          "type": "integer",
+          "title": "Внутренний идентификатор подразделения по управленческой структуру",
           "examples": [
             "1232"
           ]
         },
         "UF_ROOT_DEPARTMENT": {
-          "$id": "#/properties/UF_DEPARTMENT",
-          "type": "string",
-          "title": "Филиал пользователя",
+
+          "type": "integer",
+          "title": "Идентификтаор филиал пользователя",
           "examples": [
             "121"
           ]
@@ -881,7 +946,7 @@
           "type": "array",
           "additionalItems": true,
           "items": {
-            "$ref": "#/definitions/ArrayIdentifier"
+            "type": "integer"
           }
         },
         "ABSENCE": {
@@ -898,15 +963,15 @@
       "type": "object",
       "properties": {
         "ID": {
-          "$id": "#/properties/ID",
-          "type": "string",
+
+          "type": "integer",
           "title": "Идентификатор пользователя",
           "examples": [
-            "769"
+            769
           ]
         },
         "ACTIVE": {
-          "$id": "#/properties/IBLOCK_SECTION_ID",
+
           "type": "string",
           "title": "Признак активности",
           "examples": [
@@ -914,7 +979,7 @@
           ]
         },
         "TIMESTAMP_X": {
-          "$id": "#/properties/IBLOCK_SECTION_ID",
+
           "type": "integer",
           "title": "Дата изменения элемента",
           "examples": [
@@ -922,7 +987,7 @@
           ]
         },
         "EMAIL": {
-          "$id": "#/properties/EMAIL",
+
           "type": "string",
           "title": "Эл. адрес",
           "examples": [
@@ -930,7 +995,7 @@
           ]
         },
         "NAME": {
-          "$id": "#/properties/NAME",
+
           "type": "string",
           "title": "Имя",
           "examples": [
@@ -938,7 +1003,7 @@
           ]
         },
         "LAST_NAME": {
-          "$id": "#/properties/LAST_NAME",
+
           "type": "string",
           "title": "Отчетсво",
           "examples": [
@@ -946,7 +1011,7 @@
           ]
         },
         "SECOND_NAME": {
-          "$id": "#/properties/SECOND_NAME",
+
           "type": "string",
           "title": "Фамилия",
           "examples": [
@@ -954,7 +1019,7 @@
           ]
         },
         "PERSONAL_PHOTO": {
-          "$id": "#/properties/PERSONAL_PHOTO",
+
           "type": "string",
           "title": "Фотография пользователя",
           "examples": [
@@ -962,7 +1027,7 @@
           ]
         },
         "WORK_POSITION": {
-          "$id": "#/properties/WORK_POSITION",
+
           "type": "string",
           "title": "Должность",
           "examples": [
@@ -970,7 +1035,7 @@
           ]
         },
         "PERSONAL_MOBILE": {
-          "$id": "#/properties/UF_DEPARTMENT",
+
           "type": "string",
           "title": "Мобильный телефон пользователя",
           "examples": [
@@ -978,27 +1043,27 @@
           ]
         },
         "UF_PHONE_INNER": {
-          "$id": "#/properties/UF_DEPARTMENT",
+
           "type": "string",
-          "title": "Внутреннии телефон пользователя",
+          "title": "Внутренний телефон пользователя",
           "examples": [
             "121"
           ]
         },
         "UF_DEPARTMENT": {
-          "$id": "#/properties/UF_DEPARTMENT",
-          "type": "string",
-          "title": "Внутреннии идентификтаор подразделения по организационной структуру",
+
+          "type": "integer",
+          "title": "Внутренний идентификатор подразделения по организационной структуру",
           "examples": [
-            "121"
+            121
           ]
         },
         "UF_ADMIN_DEPARTMENT": {
-          "$id": "#/properties/UF_ADMIN_DEPARTMENT",
-          "type": "string",
-          "title": "Внутреннии идентификтаор подразделения по управленческой структуру",
+
+          "type": "integer",
+          "title": "Внутренний идентификатор подразделения по управленческой структуру",
           "examples": [
-            "1232"
+            1232
           ]
         },
         "UF_ROOT_DEPARTMENT": {
@@ -1006,7 +1071,7 @@
           "type": "string",
           "title": "Филиал пользователя",
           "examples": [
-            "121"
+            121
           ]
         },
         "MANAGERS": {
@@ -1014,7 +1079,7 @@
           "type": "array",
           "additionalItems": true,
           "items": {
-            "$ref": "#/definitions/User"
+            "type": "integer"
           }
         },
         "ABSENCE": {
@@ -1037,26 +1102,26 @@
       "properties": {
         "ID": {
           "$id": "#/properties/ID",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор записи отсутствия",
           "examples": [
-            "769"
+            769
           ]
         },
         "USER_ID": {
           "$id": "#/properties/USER_ID",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор пользователя",
           "examples": [
-            "1"
+            1
           ]
         },
         "TYPE_ID": {
           "$id": "#/properties/TYPE_ID",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор типа отсутствия",
           "examples": [
-            "3"
+            3
           ]
         },
         "DESCRIPTION": {
@@ -1090,14 +1155,14 @@
       "properties": {
         "ID": {
           "$id": "#/properties/ID",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор типа отсутствия",
           "examples": [
-            "769"
+            769
           ]
         },
         "NAME": {
-          "$id": "#/properties/USER_ID",
+
           "type": "string",
           "title": "Название типа отсутсвия",
           "examples": [
@@ -1110,11 +1175,10 @@
       "type": "integer"
     },
     "DepartmentTree": {
-      "$schema": "http://json-schema.org/draft-07/schema",
-      "$id": "http://example.com/example.json",
+
       "type": "object",
-      "title": "The Root Schema",
-      "description": "The root schema comprises the entire JSON document.",
+      "title": "Иерархия стурктуры. Неограниченный уровень вложенности подразделений",
+
       "default": {},
       "additionalProperties": true,
       "required": [
@@ -1127,16 +1191,15 @@
         "RIGHT_MARGIN",
         "LEFT_MARGIN",
         "DEPTH_LEVEL",
-        "__children",
         "EMPLOYEES"
       ],
       "properties": {
         "ID": {
           "$id": "#/properties/ID",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор подразделения",
           "examples": [
-            "6051"
+            6051
           ]
         },
         "ACTIVE": {
@@ -1157,49 +1220,40 @@
         },
         "IBLOCK_SECTION_ID": {
           "$id": "#/properties/IBLOCK_SECTION_ID",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор родительского подразделения",
           "examples": [
-            "6050"
+            6050
           ]
         },
         "UF_HEAD": {
           "$id": "#/properties/UF_HEAD",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор руководителя подразделения",
           "examples": [
-            "1077"
+            1077
           ]
         },
         "NAME": {
           "$id": "#/properties/NAME",
           "type": "string",
-          "title": "The Name Schema",
+          "title": "Название",
           "examples": [
             "Блок Главного бухгалтера"
           ]
         },
         "DEPTH_LEVEL": {
           "$id": "#/properties/DEPTH_LEVEL",
-          "type": "string",
+          "type": "integer",
           "title": "Уровень вложения подразделения",
           "examples": [
-            "2"
-          ]
-        },
-        "__children": {
-          "$id": "#/properties/__children",
-          "type": "integer",
-          "title": "Количество дочерних подразделений",
-          "default": 0,
-          "examples": [
-            2.0
+            2
           ]
         },
         "СHILDREN": {
           "$id": "#/properties/EMPLOYEES",
           "type": "array",
-          "title": "Список дочерних подразделений",
+          "title": "Список дочерних подразделений. Неограниченный уровень вложенности подразделений",
           "default": [],
           "additionalItems": true,
           "items": {
@@ -1212,8 +1266,9 @@
           "title": "Список идентификаторов сотрудников подразделения",
           "default": [],
           "additionalItems": true,
+
           "items": {
-            "$ref": "#/definitions/ArrayIdentifier"
+            "type": "integer"
           }
         }
       }
@@ -1226,10 +1281,10 @@
       "properties": {
         "ID": {
           "$id": "#/properties/ID",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор подразделения",
           "examples": [
-            "6051"
+            6051
           ]
         },
         "ACTIVE": {
@@ -1250,34 +1305,34 @@
         },
         "IBLOCK_SECTION_ID": {
           "$id": "#/properties/IBLOCK_SECTION_ID",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор родительского подразделения",
           "examples": [
-            "6050"
+            6050
           ]
         },
         "UF_HEAD": {
           "$id": "#/properties/UF_HEAD",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор руководителя подразделения",
           "examples": [
-            "1077"
+            1077
           ]
         },
         "NAME": {
           "$id": "#/properties/NAME",
           "type": "string",
-          "title": "The Name Schema",
+          "title": "Название",
           "examples": [
             "Блок Главного бухгалтера"
           ]
         },
         "DEPTH_LEVEL": {
           "$id": "#/properties/DEPTH_LEVEL",
-          "type": "string",
+          "type": "integer",
           "title": "Уровень вложения подразделения",
           "examples": [
-            "2"
+            2
           ]
         },
         "EMPLOYEES": {
@@ -1286,8 +1341,9 @@
           "title": "Список идентификаторов сотрудников подразделения",
           "default": [],
           "additionalItems": true,
+
           "items": {
-            "$ref": "#/definitions/ArrayIdentifier"
+            "type": "integer"
           }
         }
       }
@@ -1300,10 +1356,10 @@
       "properties": {
         "ID": {
           "$id": "#/properties/ID",
-          "type": "string",
+          "type": "integer",
           "title": "Идентификатор подразделения",
           "examples": [
-            "6051"
+            6051
           ]
         },
         "ACTIVE": {
@@ -1325,7 +1381,7 @@
         "NAME": {
           "$id": "#/properties/NAME",
           "type": "string",
-          "title": "The Name Schema",
+          "title": "Название",
           "examples": [
             "Блок Главного бухгалтера"
           ]
