@@ -846,6 +846,13 @@
             "Y"
           ]
         },
+        "SORT": {
+          "type": "integer",
+          "title": "Позиция при сортировке. чем значение меньше тем запись выше. Если значения равны у записей, сортируются по алфавиту SECOND_NAME",
+          "examples": [
+            100
+          ]
+        },
         "TIMESTAMP_X": {
 
           "type": "integer",
@@ -886,6 +893,7 @@
             "Ивановна"
           ]
         },
+
         "PERSONAL_PHOTO": {
           "$id": "#/properties/PERSONAL_PHOTO",
           "type": "string",
@@ -951,13 +959,13 @@
           }
         },
         "ABSENCE": {
-          "title": "Список отсутсвии пользователя",
+          "title": "Список текущего отсутсвии пользователя и 2х следующих",
           "type": "array",
           "additionalItems": true,
           "items": {
             "$ref": "#/definitions/AbsenceInfo"
           }
-        }
+        },
       }
     },
     "UserWithToken": {
@@ -978,6 +986,13 @@
           "enum": ["Y", "N"],
           "examples": [
             "Y"
+          ]
+        },
+        "SORT": {
+          "type": "integer",
+          "title": "Позиция при сортировке. чем значение меньше тем запись выше. Если значения равны у записей, сортируются по алфавиту SECOND_NAME",
+          "examples": [
+            100
           ]
         },
         "TIMESTAMP_X": {
@@ -1085,7 +1100,7 @@
           }
         },
         "ABSENCE": {
-          "title": "Список отсутсвии пользователя",
+          "title": "Список текущего отсутсвии пользователя и 2х следующих",
           "type": "array",
           "additionalItems": true,
           "items": {
@@ -1096,6 +1111,11 @@
           "$id": "#/properties/TOKEN",
           "type": "string",
           "title": "Токен авторизации пользователя"
+        },
+        "TOKEN_EXPIRED": {
+          "$id": "#/properties/TOKEN_EXPIRED",
+          "type": "integer",
+          "title": "Дата окончания действия токена, unix-time"
         }
       }
     },
@@ -1213,6 +1233,13 @@
             "Y"
           ]
         },
+        "SORT": {
+          "type": "integer",
+          "title": "Позиция при сортировке. чем значение меньше тем запись выше. Если значения равны у записей, сортируются по алфавиту NAME",
+          "examples": [
+            100
+          ]
+        },
         "TIMESTAMP_X": {
           "$id": "#/properties/IBLOCK_SECTION_ID",
           "type": "integer",
@@ -1299,6 +1326,13 @@
             "Y"
           ]
         },
+        "SORT": {
+          "type": "integer",
+          "title": "Позиция при сортировке. чем значение меньше тем запись выше. Если значения равны у записей, сортируются по алфавиту NAME",
+          "examples": [
+            100
+          ]
+        },
         "TIMESTAMP_X": {
           "$id": "#/properties/IBLOCK_SECTION_ID",
           "type": "integer",
@@ -1373,6 +1407,13 @@
           "enum": ["Y", "N"],
           "examples": [
             "Y"
+          ]
+        },
+        "SORT": {
+          "type": "integer",
+          "title": "Позиция при сортировке. чем значение меньше тем запись выше. Если значения равны у записей, сортируются по алфавиту NAME",
+          "examples": [
+            100
           ]
         },
         "TIMESTAMP_X": {
